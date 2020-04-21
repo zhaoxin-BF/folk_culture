@@ -1,0 +1,16 @@
+.admin {
+    height: 100%;
+}
+
+.content {
+    margin: 15px;
+    backgroundColor: '#fff';
+    top: 20px;
+}
+
+.footer {
+    text-align: center;
+    background-image: url("../../assests/images/3.png");
+    background-size: 100% 100%;
+    font-size: 20px;
+}
