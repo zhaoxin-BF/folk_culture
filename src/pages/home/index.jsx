@@ -21,21 +21,32 @@ export default class ResHome extends Component{
 
     //根据输入，查询数据函数
     searchResInfo = async (value) =>{
+        //设置加载
         this.state.loading = true
-        const response = await getResInfo(value)   //response.DataSet:数据    response.message：信息
+
+        //response.DataSet:数据    response.message：信息
+        const response = await getResInfo(value)
         //设置信息到该组件的变量
         this.setState({
             DataSet:response.DataSet,
             loading:false,
             schdisplay:'block'
         })
-        console.log(this.state.DataSet)
     };
 
     //页面初始化调用函数，分类显示全部的资源
     defaultResInfo = async () =>{
+        //设置加载
+        this.state.loading = true
+        //获得所有信息
         const response = await getAllRes()
-        console.log(response.DataSet)
+
+        //设置信息到该组件的变量
+        this.setState({
+            DataSet:response.DataSet,
+            loading:false,
+            schdisplay:'block'
+        })
     };
 
     render() {
@@ -43,7 +54,7 @@ export default class ResHome extends Component{
             <div>
                 <div className='home-search'>
                     <div className='button-left'>
-                        <Button type="primary" >全部资源</Button>
+                        <Button type="primary" onClick={this.defaultResInfo} >全部资源</Button>
                     </div>
                     <div className='input-right'>
                         <Search
