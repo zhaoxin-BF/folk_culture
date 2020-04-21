@@ -11,7 +11,7 @@ import Header from '../../components/header'
 import LeftNav from '../../components/leftnav'
 import './admin.css'
 
-import Home from '../home/resHome'
+import Home from '../home/home'
 import Upload from '../upload/upload'
 import Check from '../check/check'
 import User from '../user/user'

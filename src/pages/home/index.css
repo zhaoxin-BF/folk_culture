@@ -2,4 +2,18 @@
     padding-top: 15px;
     text-align: center;
     height: 50px;
+    display: flex;
+    align-items: center;
+}
+
+.home-search .button-left {
+    width: 10%;
+    text-align: left;
+    padding-left: 40px;
+    font-size: 20px;
+}
+
+.home-search .input-right {
+    width: 90%;
+    text-align: center;
 }

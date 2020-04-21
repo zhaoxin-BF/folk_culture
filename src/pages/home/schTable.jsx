@@ -1,35 +1,11 @@
 /*
-首页组件
+资源列表显示界面组件
  */
 
-import React,{Component} from "react";
-import {Card, Input,Spin,Table} from "antd"
-import './index.css'
-import {getResInfo} from "../../api";
+import React, {Component} from 'react'
+import {Card, Spin, Table} from "antd";
 
-//变量
-const {Search} = Input
-
-export default class ResHome extends Component{
-
-    state={
-        loading:false,
-        DataSet:'',
-        schdisplay:'none'
-    }
-
-    //根据内存中的数据，向后端请求数据操作
-    searchResInfo = async (value) =>{
-        this.state.loading = true
-        const response = await getResInfo(value)   //response.DataSet:数据    response.message：信息
-        //设置信息到该组件的变量
-        this.setState({
-            DataSet:response.DataSet,
-            loading:false,
-            schdisplay:'block'
-        })
-        console.log(this.state.DataSet)
-    }
+export default class ResTable extends Component{
 
 
     render() {
@@ -129,35 +105,25 @@ export default class ResHome extends Component{
             hideOnSinglePage:true,
             size:'small',
         }
-
         return (
-            <div>
-                <div className='home-search'>
-                    <Search
-                        placeholder="请输入所要查询资源名、资源ID、分类"
-                        onSearch={value => this.searchResInfo(value)}
-                        style={{width: 600}}
-                    />
-                </div>
-                <Spin spinning={this.state.loading} >
-                    <Card style={{display:this.state.schdisplay}} bordered={false} type='inner'>
-                        <Table
-                            bordered
-                            size="small"
-                            // pagination={paginationProps}
-                            // dataSource={this.state.DataSet}
-                            // columns={columns}
+            <Spin spinning={this.props.loading} >
+                <Card style={{display:this.props.schdisplay}} bordered={false} type='inner'>
+                    <Table
+                        bordered
+                        size="small"
+                        // pagination={paginationProps}
+                        // dataSource={this.state.DataSet}
+                        // columns={columns}
 
-                            // bordered
-                            columns={columns}
-                            dataSource={this.state.DataSet}
-                            rowKey={(record, index) => index}        //必须标识唯一参数
-                            scroll={{x: 1800}}
-                            pagination={paginationProps}
-                        />
-                    </Card>
-                </Spin>
-            </div>
+                        // bordered
+                        columns={columns}
+                        dataSource={this.props.DataSet}
+                        rowKey={(record, index) => index}        //必须标识唯一参数
+                        scroll={{x: 1800}}
+                        pagination={paginationProps}
+                    />
+                </Card>
+            </Spin>
         )
     }
 }
