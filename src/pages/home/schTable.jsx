@@ -45,28 +45,28 @@ export default class ResTable extends Component{
             {
                 title:'作者',
                 align:'center',
-                width:40,
+                width:30,
                 key:'Author',
                 dataIndex:'Author',
             },
             {
                 title:'年代',
                 align:'center',
-                width:40,
+                width:30,
                 key:'Time',
                 dataIndex:'Time',
             },
             {
                 title:'民族',
                 align:'center',
-                width:40,
+                width:30,
                 key:'Nation',
                 dataIndex:'Nation',
             },
             {
                 title:'地域',
                 align:'center',
-                width:40,
+                width:30,
                 key:'Region',
                 dataIndex:'Region',
             },
@@ -81,20 +81,28 @@ export default class ResTable extends Component{
                 title:'上传时间',
                 align:'center',
                 width:40,
-                key:'ScreateTime',
-                dataIndex:'ScreateTime',
+                key:'CreateTime',
+                dataIndex:'CreateTime',
+                sorter: (a, b) => a.ScreateTime - b.ScreateTime,
+                render:text=>{
+                    if (text === 0){
+                        return <div>--</div>
+                    }else{
+                        return new Date(text*1000 + 8*3600*1000).toJSON().substr(2,14).replace('T',' ')
+                    }
+                }
             },
             {
                 title:'上传者',
                 align:'center',
-                width:40,
+                width:30,
                 key:'UploadUser',
                 dataIndex:'UploadUser',
             },
             {
                 title:'审核者',
                 align:'center',
-                width:40,
+                width:30,
                 key:'CheckName',
                 dataIndex:'CheckName',
             }

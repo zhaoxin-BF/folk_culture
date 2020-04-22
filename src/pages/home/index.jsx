@@ -49,6 +49,10 @@ export default class ResHome extends Component{
         })
     };
 
+    componentDidMount() {
+        this.defaultResInfo()
+    }
+
     render() {
         return (
             <div>

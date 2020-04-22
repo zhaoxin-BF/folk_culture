@@ -109,6 +109,7 @@ export default class CheckTable extends Component {
         const dataSet0 = this.props.DataSet[0]
         const dataSet1 = this.props.DataSet[1]
         const dataSet2 = this.props.DataSet[2]
+
         return (
             <div>
                 <Collapse >

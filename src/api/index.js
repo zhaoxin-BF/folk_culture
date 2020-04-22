@@ -8,20 +8,49 @@ import ajax from "./ajax";
 const BASE = 'http://localhost:8088/v1'
 
 
-//=> 函数
+//=> 封装资源请求函数
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////user  用户相关
 //登陆用户
 export const reqLogin = (UserAccount,UserPassword) => ajax(BASE+'/user/login', {UserAccount,UserPassword}, 'post')
-
 //注册用户
 export const registerUser = (user) => ajax(BASE+'/user/register',user,'post')
-
-//查询资源信息,根据 res_name
-export const getResInfo = (res_name) => ajax(BASE+'/res/searchRes',{res_name}, 'Get')
-
 //查询资源信息, user
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////res 资源相关
+//获得所有资源信息，给用户展示
 export const getAllRes = () => ajax(BASE+'/res/getAll',{}, 'Get')
 
-//审核信息，manage
+//Search 资源信息,根据 res_name
+export const getResInfo = (res_name) => ajax(BASE+'/res/searchRes',{res_name}, 'Get')
+
+//Check 资源信息，manage
 export const getMAllRes = () => ajax(BASE+'/res/getMAll',{}, 'Get')
+
+//delete 一条资源
+export const deleteRes = (res_id) => ajax(BASE+'/res/deleteRes',{res_id},'Get')
+
+//add    一条资源
+export const addRes = (res) => ajax(BASE+'/res/add', res, 'post')
+
+//update 一条资源
+export const updateRes = (res) => ajax(BASE+'/res/update', res, 'post')
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////tag 标签相关
+//getAll tag信息
+export const getTags = () => ajax(BASE+'/tag/getAll',{},'Get')
+
+//add    tag信息
+export const addTag = (tag) => ajax(BASE+'/tag/add',tag,'post')
+
+//updata tag信息
+export const updateTag = (tag) => ajax(BASE+'/tag/update',tag,'post')
+
+//delete tag信息
+export const deleteTag = (tag_id) => ajax(BASE+'/tag/delete',{tag_id}, 'Get')
+
 
 
