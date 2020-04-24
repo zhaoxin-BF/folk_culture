@@ -27,15 +27,15 @@ export default class Upload extends Component {
 
         //从内存获取用户数据，添加近对象res中
         const user = memoryUtils.user
-        res['UserId'] = user.UserId
-        res['UserName'] = user.UserName
+        res['UploadId'] = user.UserId
+        res['UploadUser'] = user.UserName
 
-        // console.log("res: ",res)
+        console.log("res: ",res)
         //发送post 请求
         const response = await addRes(res)
 
         message.info(response.DataSet,3)
-        // this.props.history.replace('/home')
+        this.props.history.replace('/home')
         //跳转到详情显示页
     };
 
@@ -92,7 +92,12 @@ export default class Upload extends Component {
                         <Form.Item name={['res', 'Url']} label="Url网址">
                             <Input/>
                         </Form.Item>
-                        <Form.Item name={['res', 'Description']} label="资源简介">
+                        <Form.Item name={['res', 'Description']} label="资源简介"
+                                   rules={[
+                                       {
+                                           required: true,
+                                       },
+                                   ]}>
                             <Input/>
                         </Form.Item>
                         <Form.Item name={['res', 'Author']} label="作者">

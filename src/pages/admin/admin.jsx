@@ -16,19 +16,16 @@ import Upload from '../upload/upload'
 import Check from '../check/check'
 import User from '../user/user'
 import Search from '../search/search'
+import axios from "axios";
 
 
 //全局变量
 const { Footer, Sider, Content } = Layout;       //页面布局
 
-
-
-
 //
 export default class Admin extends Component {
     render() {
         const user = memoryUtils.user
-
         //从内存中读取，果内存中没有user 的信息
         if(!user || !user.UserId){
             // eslint-disable-next-line react/jsx-no-undef
@@ -53,7 +50,7 @@ export default class Admin extends Component {
                             <Redirect to='/home'/>
                         </Switch>
                     </Content>
-                    <Footer className='footer'> <h1>文化遗产资源库及检索系统 @Copyright 2020</h1> </Footer>
+                    {/*<Footer className='footer'> <h1>文化遗产资源库及检索系统 @Copyright 2020</h1> </Footer>*/}
                 </Layout>
             </Layout>
         )

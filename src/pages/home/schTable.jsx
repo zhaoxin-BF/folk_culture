@@ -76,14 +76,25 @@ export default class ResTable extends Component{
                 width:100,
                 key:'Url',
                 dataIndex:'Url',
+                render:(text)=>{
+                    if (text === ""){
+                        return(
+                            <a href="https://www.baidu.com/">百度一下</a>
+                        )
+                    }else {
+                        return(
+                            <a href={text}>{text}</a>
+                        )
+                    }
+                }
             },
             {
                 title:'上传时间',
                 align:'center',
-                width:40,
+                width:70,
                 key:'CreateTime',
                 dataIndex:'CreateTime',
-                sorter: (a, b) => a.ScreateTime - b.ScreateTime,
+                sorter: (a, b) => a.CreateTime - b.CreateTime,
                 render:text=>{
                     if (text === 0){
                         return <div>--</div>
@@ -119,11 +130,6 @@ export default class ResTable extends Component{
                     <Table
                         bordered
                         size="small"
-                        // pagination={paginationProps}
-                        // dataSource={this.state.DataSet}
-                        // columns={columns}
-
-                        // bordered
                         columns={columns}
                         dataSource={this.props.DataSet}
                         rowKey={(record, index) => index}        //必须标识唯一参数

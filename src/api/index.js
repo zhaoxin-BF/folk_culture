@@ -29,6 +29,9 @@ export const getResInfo = (res_name) => ajax(BASE+'/res/searchRes',{res_name}, '
 //Check 资源信息，manage
 export const getMAllRes = () => ajax(BASE+'/res/getMAll',{}, 'Get')
 
+//UpdateResStatus 修改资源状态信息
+export const updateResStatus = (res_id,status) => ajax(BASE+'/res/updateStatus',{res_id,status},'Get')
+
 //delete 一条资源
 export const deleteRes = (res_id) => ajax(BASE+'/res/deleteRes',{res_id},'Get')
 

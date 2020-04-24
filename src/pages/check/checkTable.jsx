@@ -3,11 +3,44 @@
  */
 
 import React,{Component} from "react";
-import {Collapse, Table} from "antd"
+import {Collapse, Table, Radio, Modal, message} from "antd"
+import {updateResStatus} from '../../api/index'
+import axios from 'axios'
 
 export default class CheckTable extends Component {
 
+    //1、磁盘异常，处理资源函数，资源操作：删除，回收，恢复
+    handleResource=(e,record)=>{
 
+        let value = e.target.value
+
+        const actionTransf = {
+            pass: "设置通过",
+            nopass:'设置未过',
+            await: "设置待过",
+            delete: "删除资源",
+        };
+        Modal.confirm({
+            title: `${actionTransf[value]} ?`,
+            content: ' 资源名：'+record.ResourceName,
+            onOk:() =>{
+                this.optRadio(record.ResourceId,value)
+            },
+            onCancel() {},
+        });
+    };
+
+    //api 请求操作
+    optRadio = async (res_id,value) =>{
+        const status = {
+            pass : 0,
+            nopass: 2,
+            await: 1,
+            delete: 3,
+        };
+        const response = await updateResStatus(res_id,status[value])
+        message.success(response.DataSet)
+    }
     render() {
         //设置列表
         const columns = [
@@ -80,9 +113,10 @@ export default class CheckTable extends Component {
             {
                 title:'上传时间',
                 align:'center',
-                width:40,
+                width:70,
                 key:'ScreateTime',
                 dataIndex:'ScreateTime',
+                sorter: (a, b) => a.CreateTime - b.CreateTime,
             },
             {
                 title:'上传者',
@@ -97,7 +131,42 @@ export default class CheckTable extends Component {
                 width:40,
                 key:'CheckName',
                 dataIndex:'CheckName',
+            },
+            {
+                title:'操作',
+                align:'center',
+                width:60,
+                key:'Status',
+                dataIndex:'Status',
+                fixed: 'right',
+                render:(text,record)=>{
+                    console.log(record)
+                    if (record.Status === 0){
+                       return (
+                           <Radio.Group style={{fontSize:8}} size='small' buttonStyle="solid" onChange={(e)=>(this.handleResource(e,record))}>
+                               <Radio.Button value="await">待过</Radio.Button>
+                               <Radio.Button value="nopass">未过</Radio.Button>
+                           </Radio.Group>
+                       )
+                    }else if (record.Status === 1){
+                        return (
+                            <Radio.Group style={{fontSize:8}} size='small' buttonStyle="solid" onChange={(e)=>(this.handleResource(e,record))}>
+                                <Radio.Button value="pass">通过</Radio.Button>
+                                <Radio.Button value="nopass">未过</Radio.Button>
+                            </Radio.Group>
+                        )
+                    }else {
+                        return (
+                            <Radio.Group style={{fontSize:8}} size='small' buttonStyle="solid" onChange={(e)=>(this.handleResource(e,record))}>
+                                <Radio.Button value="pass">通过</Radio.Button>
+                                <Radio.Button value="delete">删除</Radio.Button>
+                            </Radio.Group>
+                        )
+                    }
+
+                }
             }
+
         ];
         //设置显示的每页长度
         const paginationProps = {
@@ -105,7 +174,7 @@ export default class CheckTable extends Component {
             hideOnSinglePage:true,
             size:'small',
         }
-
+        //资源数据分类
         const dataSet0 = this.props.DataSet[0]
         const dataSet1 = this.props.DataSet[1]
         const dataSet2 = this.props.DataSet[2]
@@ -127,7 +196,7 @@ export default class CheckTable extends Component {
                     </Collapse.Panel>}
 
                     {dataSet1!=null &&
-                    <Collapse.Panel header={'待审核：'+dataSet1.length+' 条数据'}>
+                    <Collapse.Panel header={'有待审核：'+dataSet1.length+' 条数据'}>
                         <Table
                             size="small"
                             pagination={false}
@@ -141,7 +210,7 @@ export default class CheckTable extends Component {
 
                     {/*{dataSet2!=null &&*/}
                     {dataSet2!=null &&
-                    <Collapse.Panel header={'未通过：'+dataSet2.length+" 条数据"}>
+                    <Collapse.Panel header={'审核未过：'+dataSet2.length+" 条数据"}>
                         <Table
                             size="small"
                             pagination={false}
@@ -149,6 +218,7 @@ export default class CheckTable extends Component {
                             columns={columns}
                             pagination={paginationProps}
                             rowKey={(record, index) => index}        //必须标识唯一参数
+                            // rowKey={(record, index) => index}             //必须标识唯一参数
                             scroll={{x: 1800}}
                         />
                     </Collapse.Panel>}

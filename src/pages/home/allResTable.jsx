@@ -80,9 +80,17 @@ export default class ResTable extends Component{
             {
                 title:'上传时间',
                 align:'center',
-                width:40,
-                key:'ScreateTime',
-                dataIndex:'ScreateTime',
+                width:70,
+                key:'CreateTime',
+                dataIndex:'CreateTime',
+                sorter: (a, b) => a.ScreateTime - b.ScreateTime,
+                render:text=>{
+                    if (text === 0){
+                        return <div>--</div>
+                    }else{
+                        return new Date(text*1000 + 8*3600*1000).toJSON().substr(2,14).replace('T',' ')
+                    }
+                }
             },
             {
                 title:'上传者',
