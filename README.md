@@ -1,5 +1,4 @@
-# folk_culture_api
-民俗文化资源管理系统
+# folk_culture 民俗文化资源管理系统 前端
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
