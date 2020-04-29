@@ -4,8 +4,8 @@
  */
 
 import ajax from "./ajax";
-// const BASE = 'http://39.96.179.159:8088/v1'
-const BASE = 'http://localhost:8088/v1'
+const BASE = 'http://39.96.179.159:8088/v1'
+// const BASE = 'http://localhost:8088/v1'
 
 
 //=> 封装资源请求函数

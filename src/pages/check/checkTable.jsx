@@ -109,6 +109,17 @@ export default class CheckTable extends Component {
                 width:100,
                 key:'Url',
                 dataIndex:'Url',
+                render:(text)=>{
+                    if (text === ""){
+                        return(
+                            <a href="https://www.baidu.com/">百度一下</a>
+                        )
+                    }else {
+                        return(
+                            <a href={text}>{text}</a>
+                        )
+                    }
+                }
             },
             {
                 title:'上传时间',
