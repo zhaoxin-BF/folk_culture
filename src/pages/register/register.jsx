@@ -50,7 +50,7 @@ export default class Login extends Component {
                     <img src={logo} alt="logo"/>
                     <h1>文化遗产资源库及检索系统</h1>
                 </header>
-                <section className="login-section">
+                <section className="register-section">
                     <h2>用户注册</h2>
                     <Form {...layout} name="nest-messages" onFinish={this.onFinish}>
 
