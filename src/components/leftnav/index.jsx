@@ -1,17 +1,18 @@
 // 左侧导航栏组件
 
 import React, {Component} from "react";
-import {Link, withRouter} from 'react-router-dom';
+import {Link, Redirect, withRouter} from 'react-router-dom';
 import './index.css'
 import logo from '../../assests/images/logo.png'
-import {Menu} from 'antd'
+import {Menu, message} from 'antd'
 import menuList from '../../config/menuConfig'
+import memoryUtils from "../../utils/memoryUtils";
+import user from "../../pages/user/user";
 
 
 const { SubMenu } = Menu;
 
 class LeftNav extends Component {
-
     //根据menu 的数据生成对应的标签数组
     //使用map() + 递归调用
     // getMenuNodes = (menuList) =>{
@@ -52,18 +53,44 @@ class LeftNav extends Component {
 
     //根据menu 的数据生成对应的标签数组
     //使用reduce() + 递归调用, 可增可减
+
     getMenuNodes_reduce = (menuList) => {
         return menuList.reduce((pre, item) => {
+            let user = memoryUtils.user.UserType
             //向pre添加<Menu.Item>
             if(!item.children) {
-                pre.push((
-                    <Menu.Item key={item.key}>
-                         <Link to={item.key}>
-                             {item.icon}
-                             <span>{item.title}</span>
-                         </Link>
-                    </Menu.Item>
-                ))
+                if (user === 2) {                                           //如果是超级用户，给他全部的权限
+                    pre.push((
+                        <Menu.Item key={item.key}>
+                            <Link to={item.key}>
+                                {item.icon}
+                                <span>{item.title}</span>
+                            </Link>
+                        </Menu.Item>
+                    ))
+                }else if(user === 1){                                        //如果是管理员，给其资源查询、资源上传、资源审核权限
+                    if (item.key !== "/user") {
+                        pre.push((
+                            <Menu.Item key={item.key}>
+                                <Link to={item.key}>
+                                    {item.icon}
+                                    <span>{item.title}</span>
+                                </Link>
+                            </Menu.Item>
+                        ))
+                    }
+                }else {                                                      //如果是普通用户，只给资源查询和字眼上传的权限
+                    if (item.key === "/home" || item.key === "/upload"){
+                        pre.push((
+                            <Menu.Item key={item.key}>
+                                <Link to={item.key}>
+                                    {item.icon}
+                                    <span>{item.title}</span>
+                                </Link>
+                            </Menu.Item>
+                        ))
+                    }
+                }
             } else {
                 //向pre添加<SubMen>
                 pre.push((
@@ -91,7 +118,6 @@ class LeftNav extends Component {
         // const path = 'home'
 
 
-
         return (
             <div className="left-nav">
                 <Link  to='/' className="left-nav-header">
@@ -106,49 +132,9 @@ class LeftNav extends Component {
                     mode="inline"
                     theme="dark"
                 >
-
-                    {/*<Menu.Item key="home">*/}
-                    {/*    <Link to='/home'>*/}
-                    {/*        <PieChartOutlined />*/}
-                    {/*        <span>所有资源</span>*/}
-                    {/*    </Link>*/}
-                    {/*</Menu.Item>*/}
-                    {/*<Menu.Item key="upload">*/}
-                    {/*    <Link to='/upload'>*/}
-                    {/*        <MenuUnfoldOutlined />*/}
-                    {/*        <span>上传资源</span>*/}
-                    {/*    </Link>*/}
-                    {/*</Menu.Item>*/}
-                    {/*<Menu.Item key="check">*/}
-                    {/*    <Link to='/check'>*/}
-                    {/*        <DesktopOutlined />*/}
-                    {/*        <span>资源审核</span>*/}
-                    {/*    </Link>*/}
-                    {/*</Menu.Item>*/}
-                    {/*<Menu.Item key="user">*/}
-                    {/*    <Link to='/user'>*/}
-                    {/*        <MailOutlined />*/}
-                    {/*        <span>用户管理</span>*/}
-                    {/*    </Link>*/}
-                    {/*</Menu.Item>*/}
-                    {/*<SubMenu*/}
-                    {/*    key="tags"*/}
-                    {/*    title={*/}
-                    {/*        <span>*/}
-                    {/*        <MenuFoldOutlined />*/}
-                    {/*        <span>资源分类</span>*/}
-                    {/*        </span>*/}
-                    {/*    }*/}
-                    {/*>*/}
-                    {/*    <Menu.Item key="5">诗词</Menu.Item>*/}
-                    {/*    <Menu.Item key="6">歌赋</Menu.Item>*/}
-                    {/*    <Menu.Item key="7">琴棋</Menu.Item>*/}
-                    {/*    <Menu.Item key="8">书画</Menu.Item>*/}
-                    {/*</SubMenu>*/}
-
-                    {
-                        this.getMenuNodes_reduce(menuList)
-                    }
+                {
+                    this.getMenuNodes_reduce(menuList)
+                }
                 </Menu>
             </div>
         )

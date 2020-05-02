@@ -43,7 +43,6 @@ export default class Login extends Component {
         //三、统一异常处理
         const {UserAccount, UserPassword} = values //和后端接口绑定数据对应
         const response = await reqLogin(UserAccount, UserPassword)
-        console.log('请求成功了！', response.data)
 
         const result = response
         if (result.DataSet.LoginStatus === 0){
@@ -53,12 +52,10 @@ export default class Login extends Component {
             const user = result.DataSet.UserInfo
             memoryUtils.user = user                  //存在内存中
             storageUtils.saveUser(user)          //保存在local storage 本地存储
-
-
             //跳转管理页面
             this.props.history.replace('/')       //不需要回退，用replace     涉及到回退的时候，用push
         }else {
-            console.log(result.message)
+            message.error(result.DataSet.UserInfo)
         }
 
     };
@@ -108,7 +105,7 @@ export default class Login extends Component {
                             <Button type="primary" htmlType="submit" className="login-form-button">
                                 登陆
                             </Button><br/>
-                            Or <a href="http://www.baidu.com">register now!</a>
+                            Or <a href="/register">register now!</a>
                         </Form.Item>
                     </Form>
                 </section>

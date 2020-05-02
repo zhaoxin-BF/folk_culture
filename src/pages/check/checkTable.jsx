@@ -9,7 +9,7 @@ import axios from 'axios'
 
 export default class CheckTable extends Component {
 
-    //1、磁盘异常，处理资源函数，资源操作：删除，回收，恢复
+    //1、资源审核，处理资源函数，资源操作：资源状态通过、待审核、未过、删除
     handleResource=(e,record)=>{
 
         let value = e.target.value

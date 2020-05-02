@@ -119,7 +119,7 @@ export default class Upload extends Component {
                         </Form.Item>
 
                         <Form.Item wrapperCol={{...layout.wrapperCol, offset: 4}}>
-                            <Button type="primary" htmlType="submit" style={{width:100}}>
+                            <Button type="primary" htmlType="submit" style={{width:800}}>
                                 提交
                             </Button>
                         </Form.Item>

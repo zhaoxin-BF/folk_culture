@@ -15,6 +15,9 @@ export const reqLogin = (UserAccount,UserPassword) => ajax(BASE+'/user/login', {
 //注册用户
 export const registerUser = (user) => ajax(BASE+'/user/register',user,'post')
 //查询资源信息, user
+export const getAllUser = () => ajax(BASE+'/user/getAll',{},'Get')
+//修改用户状态0/普通用户 1/管理员
+export const updateUserType = (user_id, type) => ajax(BASE+'/user/updateUserType',{user_id,type},'Get')
 
 
 
