@@ -5,7 +5,7 @@
 import React,{Component} from "react";
 import {Collapse, Table, Radio, Modal, message} from "antd"
 import {updateResStatus} from '../../api/index'
-import axios from 'axios'
+import memoryUtils from '../../utils/memoryUtils'
 
 export default class CheckTable extends Component {
 
@@ -38,7 +38,8 @@ export default class CheckTable extends Component {
             await: 1,
             delete: 3,
         };
-        const response = await updateResStatus(res_id,status[value])
+        const check_name = memoryUtils.user.UserName
+        const response = await updateResStatus(check_name,res_id,status[value])
         message.success(response.DataSet)
     }
     render() {

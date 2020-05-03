@@ -130,7 +130,7 @@ export default class User extends Component{
                 width:100,
                 key:'CreateTime',
                 dataIndex:'CreateTime',
-                sorter: (a, b) => a.ScreateTime - b.ScreateTime,
+                sorter: (a, b) => a.CreateTime - b.CreateTime,
                 render:text=>{
                     if (text === 0){
                         return <div>--</div>
