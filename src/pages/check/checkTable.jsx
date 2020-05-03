@@ -3,11 +3,32 @@
  */
 
 import React,{Component} from "react";
-import {Collapse, Table, Radio, Modal, message} from "antd"
+import {Collapse, Table, Radio, Modal, message, Button} from "antd"
 import {updateResStatus} from '../../api/index'
 import memoryUtils from '../../utils/memoryUtils'
+import ResDetail from './resDetail'
 
 export default class CheckTable extends Component {
+    state={
+        visible:false,
+        resource:{},
+    };
+
+    getResDetail=(record)=>{
+        console.log(record)
+        this.setState({
+            resource:record,
+            visible:true,
+        })
+    };
+
+    //取消资源展示
+    handleCancel = (e) => {
+        console.log(e);
+        this.setState({
+            visible: false,
+        });
+    };
 
     //1、资源审核，处理资源函数，资源操作：资源状态通过、待审核、未过、删除
     handleResource=(e,record)=>{
@@ -68,6 +89,13 @@ export default class CheckTable extends Component {
                 key:'ResourceName',
                 dataIndex:'ResourceName',
                 fixed:'left',
+                render:(text,record)=>{
+                    return(
+                        <Button type={'link'} size={'small'} onClick={()=>(this.getResDetail(record))}>
+                            {text}
+                        </Button>
+                    )
+                }
             },
             {
                 title:'简介',
@@ -235,6 +263,20 @@ export default class CheckTable extends Component {
                         />
                     </Collapse.Panel>}
                 </Collapse>
+
+                <Modal
+                    title="资源展示"
+                    visible={this.state.visible}
+                    onCancel= {this.handleCancel}
+                    destroyOnClose={true}
+                    width={1200}
+                    centered={true}
+                    footer={null}
+                    style={{top:20}}>
+                    <ResDetail
+                        DataSet={this.state.resource}
+                     />
+                </Modal>
             </div>
         )
     }

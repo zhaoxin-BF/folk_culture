@@ -15,7 +15,6 @@ import Home from '../home'
 import Upload from '../upload/upload'
 import Check from '../check/check'
 import User from '../user/user'
-import Search from '../search/search'
 import axios from "axios";
 
 
@@ -46,7 +45,6 @@ export default class Admin extends Component {
                             <Route path='/upload' component={Upload} />
                             <Route path='/check' component={Check} />
                             <Route path='/user' component={User} />
-                            <Route path='/search' component={Search} />
                             <Redirect to='/home'/>
                         </Switch>
                     </Content>

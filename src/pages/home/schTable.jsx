@@ -3,10 +3,31 @@
  */
 
 import React, {Component} from 'react'
-import {Card, Spin, Table} from "antd";
+import {Button, Card, Modal, Spin, Table} from "antd";
+import ResDetail from "../check/resDetail";
 
 export default class ResTable extends Component{
 
+    state={
+        visible:false,
+        resource:{},
+    };
+
+    getResDetail=(record)=>{
+        console.log(record)
+        this.setState({
+            resource:record,
+            visible:true,
+        })
+    };
+
+    //取消资源展示
+    handleCancel = (e) => {
+        console.log(e);
+        this.setState({
+            visible: false,
+        });
+    };
 
     render() {
         //设置列表
@@ -34,6 +55,13 @@ export default class ResTable extends Component{
                 key:'ResourceName',
                 dataIndex:'ResourceName',
                 fixed:'left',
+                render:(text,record)=>{
+                    return(
+                        <Button type={'link'} size={'small'} onClick={()=>(this.getResDetail(record))}>
+                            {text}
+                        </Button>
+                    )
+                }
             },
             {
                 title:'简介',
@@ -116,6 +144,14 @@ export default class ResTable extends Component{
                 width:30,
                 key:'CheckName',
                 dataIndex:'CheckName',
+            },
+            {
+                title: '操作',
+                align: 'center',
+                width: 25,
+                key: 'ResourceId',
+                dataIndex: 'ResourceId',
+                fixed: 'right',
             }
         ];
         //设置显示的每页长度
@@ -125,19 +161,34 @@ export default class ResTable extends Component{
             size:'small',
         }
         return (
-            <Spin spinning={this.props.loading} >
-                <Card style={{display:this.props.schdisplay}} bordered={false} type='inner'>
-                    <Table
-                        bordered
-                        size="small"
-                        columns={columns}
-                        dataSource={this.props.DataSet}
-                        rowKey={(record, index) => index}        //必须标识唯一参数
-                        scroll={{x: 1800}}
-                        pagination={paginationProps}
+            <div>
+                <Spin spinning={this.props.loading} >
+                    <Card style={{display:this.props.schdisplay}} bordered={false} type='inner'>
+                        <Table
+                            bordered
+                            size="small"
+                            columns={columns}
+                            dataSource={this.props.DataSet}
+                            rowKey={(record, index) => index}        //必须标识唯一参数
+                            scroll={{x: 1800}}
+                            pagination={paginationProps}
+                        />
+                    </Card>
+                </Spin>
+                <Modal
+                    title="资源展示"
+                    visible={this.state.visible}
+                    onCancel= {this.handleCancel}
+                    destroyOnClose={true}
+                    width={1200}
+                    centered={true}
+                    footer={null}
+                    style={{top:20}}>
+                    <ResDetail
+                        DataSet={this.state.resource}
                     />
-                </Card>
-            </Spin>
+                </Modal>
+            </div>
         )
     }
 }
