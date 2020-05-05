@@ -67,7 +67,7 @@ export default class Upload extends Component {
             <div>
                 <div className='title'><h1>资源上传</h1></div>
                 <div className='upload'>
-                    <Form {...layout} name="nest-messages" onFinish={this.onFinish} validateMessages={validateMessages}>
+                    <Form {...layout} name="nest-messages" onFinish={this.onFinish} validateMessages={validateMessages} >
 
                         <Form.Item name={['res','TagName']} label="类别">
                             <Select>
@@ -100,11 +100,11 @@ export default class Upload extends Component {
                                    ]}>
                             <Input/>
                         </Form.Item>
-                        <Form.Item name={['res', 'Author']} label="作者">
-                            <Input/>
+                        <Form.Item name={['res', 'Author']} label="作者" >
+                            <Input />
                         </Form.Item>
                         <Form.Item name={['res', 'Time']} label="年代">
-                            <Input/>
+                            <Input />
                         </Form.Item>
                         <Form.Item name={['res', 'Nation']} label="民族">
                             <Input/>
@@ -114,7 +114,7 @@ export default class Upload extends Component {
                         </Form.Item>
                         <Form.Item name={['res', 'ResourceContext']} label="资源内容">
                             <Input.TextArea
-                                autoSize={{ minRows: 3, maxRows: 5 }}
+                                autoSize={{ minRows: 3, maxRows: 6 }}
                             />
                         </Form.Item>
 

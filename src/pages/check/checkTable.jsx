@@ -7,13 +7,31 @@ import {Collapse, Table, Radio, Modal, message, Button} from "antd"
 import {updateResStatus} from '../../api/index'
 import memoryUtils from '../../utils/memoryUtils'
 import ResDetail from './resDetail'
+import UpdateRes from './updateRes'
 
 export default class CheckTable extends Component {
     state={
-        visible:false,
+        visible:false,            //资源展示控制
         resource:{},
+
+        updateRes:{},             //资源修改控制
+        updateVisible:false,
+    };
+    //资源修改
+    updateRes=(record)=>{
+        this.setState({
+            updateRes:record,
+            updateVisible:true,
+        })
+    };
+    //取消资源修改
+    updateHandleCancel=(e)=>{
+        this.setState({
+            updateVisible: false,
+        });
     };
 
+    //资源展示
     getResDetail=(record)=>{
         console.log(record)
         this.setState({
@@ -85,7 +103,7 @@ export default class CheckTable extends Component {
             {
                 title:'资源名称',
                 align:'center',
-                width:60,
+                width:40,
                 key:'ResourceName',
                 dataIndex:'ResourceName',
                 fixed:'left',
@@ -100,14 +118,14 @@ export default class CheckTable extends Component {
             {
                 title:'简介',
                 align:'center',
-                width:100,
+                width:60,
                 key:'Description',
                 dataIndex:'Description',
             },
             {
                 title:'作者',
                 align:'center',
-                width:40,
+                width:60,
                 key:'Author',
                 dataIndex:'Author',
             },
@@ -180,27 +198,35 @@ export default class CheckTable extends Component {
                 dataIndex:'Status',
                 fixed: 'right',
                 render:(text,record)=>{
-                    console.log(record)
                     if (record.Status === 0){
                        return (
-                           <Radio.Group style={{fontSize:8}} size='small' buttonStyle="solid" onChange={(e)=>(this.handleResource(e,record))}>
-                               <Radio.Button value="await">待过</Radio.Button>
-                               <Radio.Button value="nopass">未过</Radio.Button>
-                           </Radio.Group>
+                           <div>
+                               <Radio.Group style={{fontSize:8}} size='small' buttonStyle="solid" onChange={(e)=>(this.handleResource(e,record))}>
+                                   <Radio.Button value="await">待过</Radio.Button>
+                                   <Radio.Button value="nopass">未过</Radio.Button>
+                               </Radio.Group>
+                               <Button type="primary" size="small" onClick={()=>(this.updateRes(record))}>修改</Button>
+                           </div>
                        )
                     }else if (record.Status === 1){
                         return (
-                            <Radio.Group style={{fontSize:8}} size='small' buttonStyle="solid" onChange={(e)=>(this.handleResource(e,record))}>
-                                <Radio.Button value="pass">通过</Radio.Button>
-                                <Radio.Button value="nopass">未过</Radio.Button>
-                            </Radio.Group>
+                            <div>
+                                <Radio.Group style={{fontSize:8}} size='small' buttonStyle="solid" onChange={(e)=>(this.handleResource(e,record))}>
+                                    <Radio.Button value="pass">通过</Radio.Button>
+                                    <Radio.Button value="nopass">未过</Radio.Button>
+                                </Radio.Group>
+                                <Button type="primary" size="small" onClick={()=>(this.updateRes(record))}>修改</Button>
+                            </div>
                         )
                     }else {
                         return (
-                            <Radio.Group style={{fontSize:8}} size='small' buttonStyle="solid" onChange={(e)=>(this.handleResource(e,record))}>
-                                <Radio.Button value="pass">通过</Radio.Button>
-                                <Radio.Button value="delete">删除</Radio.Button>
-                            </Radio.Group>
+                            <div>
+                                <Radio.Group style={{fontSize:8}} size='small' buttonStyle="solid" onChange={(e)=>(this.handleResource(e,record))}>
+                                    <Radio.Button value="pass">通过</Radio.Button>
+                                    <Radio.Button value="delete">删除</Radio.Button>
+                                </Radio.Group>
+                                <Button type="primary" size="small" onClick={()=>(this.updateRes(record))}>修改</Button>
+                            </div>
                         )
                     }
 
@@ -210,7 +236,7 @@ export default class CheckTable extends Component {
         ];
         //设置显示的每页长度
         const paginationProps = {
-            defaultPageSize:10,
+            defaultPageSize:6,
             hideOnSinglePage:true,
             size:'small',
         }
@@ -225,26 +251,28 @@ export default class CheckTable extends Component {
                     {dataSet0!=null &&
                     <Collapse.Panel header={'审核通过：'+dataSet0.length+' 条数据'}>
                         <Table
+                            bordered
                             size="small"
                             pagination={false}
                             dataSource={dataSet0}
                             columns={columns}
                             pagination={paginationProps}
                             rowKey={(record, index) => index}        //必须标识唯一参数
-                            scroll={{x: 1800}}
+                            scroll={{x: 2000}}
                         />
                     </Collapse.Panel>}
 
                     {dataSet1!=null &&
                     <Collapse.Panel header={'有待审核：'+dataSet1.length+' 条数据'}>
                         <Table
+                            bordered
                             size="small"
                             pagination={false}
                             dataSource={dataSet1}
                             columns={columns}
                             pagination={paginationProps}
                             rowKey={(record, index) => index}        //必须标识唯一参数
-                            scroll={{x: 1800}}
+                            scroll={{x: 2000}}
                         />
                     </Collapse.Panel>}
 
@@ -252,6 +280,7 @@ export default class CheckTable extends Component {
                     {dataSet2!=null &&
                     <Collapse.Panel header={'审核未过：'+dataSet2.length+" 条数据"}>
                         <Table
+                            bordered
                             size="small"
                             pagination={false}
                             dataSource={dataSet2}
@@ -259,7 +288,7 @@ export default class CheckTable extends Component {
                             pagination={paginationProps}
                             rowKey={(record, index) => index}        //必须标识唯一参数
                             // rowKey={(record, index) => index}             //必须标识唯一参数
-                            scroll={{x: 1800}}
+                            scroll={{x: 2000}}
                         />
                     </Collapse.Panel>}
                 </Collapse>
@@ -276,6 +305,20 @@ export default class CheckTable extends Component {
                     <ResDetail
                         DataSet={this.state.resource}
                      />
+                </Modal>
+
+                <Modal
+                    title="资源修改"
+                    visible={this.state.updateVisible}
+                    onCancel= {this.updateHandleCancel}
+                    destroyOnClose={true}
+                    width={1200}
+                    centered={true}
+                    footer={null}
+                    style={{top:20}}>
+                    <UpdateRes
+                        DataSet={this.state.updateRes}
+                    />
                 </Modal>
             </div>
         )

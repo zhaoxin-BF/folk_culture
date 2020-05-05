@@ -51,7 +51,7 @@ export default class ResTable extends Component{
             {
                 title:'资源名称',
                 align:'center',
-                width:60,
+                width:40,
                 key:'ResourceName',
                 dataIndex:'ResourceName',
                 fixed:'left',
@@ -66,14 +66,14 @@ export default class ResTable extends Component{
             {
                 title:'简介',
                 align:'center',
-                width:100,
+                width:60,
                 key:'Description',
                 dataIndex:'Description',
             },
             {
                 title:'作者',
                 align:'center',
-                width:30,
+                width:60,
                 key:'Author',
                 dataIndex:'Author',
             },
@@ -144,19 +144,11 @@ export default class ResTable extends Component{
                 width:30,
                 key:'CheckName',
                 dataIndex:'CheckName',
-            },
-            {
-                title: '操作',
-                align: 'center',
-                width: 25,
-                key: 'ResourceId',
-                dataIndex: 'ResourceId',
-                fixed: 'right',
             }
         ];
         //设置显示的每页长度
         const paginationProps = {
-            defaultPageSize:10,
+            defaultPageSize:6,
             hideOnSinglePage:true,
             size:'small',
         }
@@ -170,7 +162,7 @@ export default class ResTable extends Component{
                             columns={columns}
                             dataSource={this.props.DataSet}
                             rowKey={(record, index) => index}        //必须标识唯一参数
-                            scroll={{x: 1800}}
+                            scroll={{x: 2000}}
                             pagination={paginationProps}
                         />
                     </Card>
