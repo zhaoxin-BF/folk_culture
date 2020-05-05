@@ -35,7 +35,7 @@ export default class UpdateRes extends Component{
 
         console.log("updateData: ",updateDate)
         //发送post 请求
-        const response = await updateRes(res)
+        const response = await updateRes(updateDate)
 
         message.info(response.DataSet,3)
         //跳转到详情显示页
