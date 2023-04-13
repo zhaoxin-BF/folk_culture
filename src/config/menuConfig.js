@@ -50,24 +50,24 @@ const menuList = [
         key: '/user',
         icon: <UsergroupAddOutlined />,
     },
-//     {
-//         title: '测试导航',
-//         key: '/test',
-//         icon: <MailOutlined/>,
-//         children: [ //子菜单列表
-//             {
-//                 title: 'test1111',
-//                 key: '/test1111',
-//                 icon: <ContainerOutlined/>
-//             },
-//             {
-//                 title: 'test2222',
-//                 key: '/test2222',
-//                 icon: <DesktopOutlined/>
-//             },
-//
-//         ]
-//     }
+    {
+        title: '测试导航',
+        key: '/test',
+        icon: <MailOutlined/>,
+        children: [ //子菜单列表
+            {
+                title: 'test1111',
+                key: '/test/test1',
+                icon: <ContainerOutlined/>
+            },
+            {
+                title: 'test2222',
+                key: '/test/test2',
+                icon: <DesktopOutlined/>
+            },
+
+        ]
+    }
 ]
 
 export default menuList
